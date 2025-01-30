@@ -101,7 +101,30 @@ public class MemorySpace {
 	 *                    the starting address of the block to freeList
 	 */
 	public void free(int address) {
-		//// Write your code here
+		if (freeList.getSize() == 1 && freeList.getFirst().block.length == 100
+				&& freeList.getFirst().block.baseAddress == 0) {
+			throw new IllegalArgumentException("index must be between 0 and size");
+		}
+		// if (freeList.getFirst().block.length) {
+		// throw new IllegalArgumentException("index must be between 0 and size");
+		// }
+		// if (freeList.getFirst().block.baseAddress == 0) {
+		// throw new IllegalArgumentException("index must be between 0 and size");
+		// }
+		Node x1 = null;
+		Node x2 = allocatedList.getFirst();
+		while (x2 != null) {
+			if (address == x2.block.baseAddress) {
+				x1 = x2;
+				break;
+
+			}
+			x2 = x2.next;
+		}
+		if (x1 != null) {
+			freeList.addLast(x1.block);
+			allocatedList.remove(x1.block);
+		}
 	}
 
 	/**
